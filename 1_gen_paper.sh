@@ -1,5 +1,6 @@
 # Copyright © 2019 LouisSung.
 # All rights reserved.
+# Version 1.0
 
 echo -e "\e[1;36mGenerate Paper PDF\e[0m"
 

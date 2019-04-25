@@ -16,6 +16,8 @@ except ModuleNotFoundError:
 
 __author__ = "Louis Sung"
 __copyright__ = "Copyright © 2019 LouisSung. All rights reserved."
+__license__ = "MIT"
+__version__ = "1.0"
 
 # Parameters
 os.chdir("../")    # move to parent dir

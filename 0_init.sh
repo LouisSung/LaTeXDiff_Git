@@ -1,5 +1,6 @@
 # Copyright © 2019 LouisSung.
 # All rights reserved.
+# Version 1.0
 
 # These scripts have been run on Ubuntu 18.04 LTS via bash
 # Require sudo privileges in order to install packages
