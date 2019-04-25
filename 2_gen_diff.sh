@@ -1,3 +1,6 @@
+# Copyright © 2019 LouisSung.
+# All rights reserved.
+
 echo -e "\e[1;36mGenerate Diff PDFs\e[0m"
 
 cd diff/

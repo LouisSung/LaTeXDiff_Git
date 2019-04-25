@@ -7,7 +7,12 @@ Commits on mater branch and start with 'Edit' and 'Review' will be processed.
 
 This script requires 'git', 'latexdiff', 'bibtex', and 'pdflatex' package.
 """
-import binascii, git, os, shutil, subprocess
+try:
+    import binascii, git, os, pathlib, shutil, subprocess
+except ModuleNotFoundError:
+    import subprocess
+    subprocess.run(["pipenv", "install"])
+    import binascii, git, os, pathlib, shutil
 
 __author__ = "Louis Sung"
 __copyright__ = "Copyright © 2019 LouisSung. All rights reserved."
@@ -17,6 +22,7 @@ os.chdir("../")    # move to parent dir
 MAX_AUTHORS = 2
 dir_diff = "diff/"
 tex_paper = "Paper.tex"
+set_env = "export TEXINPUTS=.//:;export BIBINPUTS=.//:;export BSTINPUTS=.//:"
 
 # Preprocess target folders and file names
 _tmp = binascii.b2a_hex(os.urandom(4)).decode()    # tmp name for folders
@@ -66,21 +72,26 @@ for i in range(len(commit)-1):
     # execute latexdiff and pdflatex
     with open(os.devnull, "w") as null:
         # generate old & new bbl files
-        subprocess.run("cd {0}; pdflatex {1}".format(
-            dir_new, tex_paper), shell=True, stdout=null)
-        subprocess.run("cd {0}; bibtex {1}".format(
-            dir_new, tex_paper[:-3] + "aux"), shell=True, stdout=null)
-        subprocess.run("cd {0}; pdflatex {1}".format(
-            dir_old, tex_paper), shell=True, stdout=null)
-        subprocess.run("cd {0}; bibtex {1}".format(
-            dir_old, tex_paper[:-3] + "aux"), shell=True, stdout=null)
+        subprocess.run("cd {0}; {1}; pdflatex {2}".format(
+            dir_new, set_env, tex_paper), shell=True, stdout=null)
+        subprocess.run("cd {0}; {1}; bibtex {2}".format(
+            dir_new, set_env, tex_paper[:-3] + "aux"), shell=True, stdout=null)
+        subprocess.run("cd {0}; {1}; pdflatex {2}".format(
+            dir_old, set_env, tex_paper), shell=True, stdout=null)
+        subprocess.run("cd {0}; {1}; bibtex {2}".format(
+            dir_old, set_env, tex_paper[:-3] + "aux"), shell=True, stdout=null)
 
         # generate diff tex
         with open(dir_new + file_diff + ".tex", "w") as w_diff:
+            # move all files to root directory
+            for d in (dir_new, dir_old):
+                for file in pathlib.Path(d).rglob("*.*"):
+                    if str(file.parent) != d[:-1]:
+                        shutil.move(os.path.join(str(file)),
+                                    os.path.join(d, file.name))
             subprocess.run("latexdiff --flatten -p {0} {1} {2}".format(
-                "{0}._p{1}.tex".format(
-                    dir_diff, min(_authors[author], MAX_AUTHORS)),
-                tex_old, tex_new), shell=True, stdout=w_diff, stderr=null)
+                preamble, tex_old, tex_new),
+                shell=True, stdout=w_diff, stderr=null)
 
         # generate diff pdf
         subprocess.run("cd {0}; pdflatex -interaction=nonstopmode {1}".format(

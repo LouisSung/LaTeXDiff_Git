@@ -1,16 +1,24 @@
+# Copyright © 2019 LouisSung.
+# All rights reserved.
+
 echo -e "\e[1;36mGenerate Paper PDF\e[0m"
+
+# export tex, bib, and bst path to env
+export TEXINPUTS=.//:
+export BIBINPUTS=.//:
+export BSTINPUTS=.//:
 
 BUILD_DIR='build/'
 PAPER='Paper'
 
-if [ ! -f "$BUILD_DIR$PAPER.aux" ]; then    # make sure to ref citation for the first build
-    pdflatex -output-directory=$BUILD_DIR $PAPER.tex > /dev/null; fi
-if [[ -n $(find ./ -name "*.bib") ]]; then    # build BibTex if exist
+if [[ -n $(find ./ -name '*.bib') ]]; then    # build BibTex if exist
+    pdflatex -output-directory=$BUILD_DIR $PAPER.tex > /dev/null
     bibtex $BUILD_DIR$PAPER.aux > /dev/null
     pdflatex -output-directory=$BUILD_DIR $PAPER.tex > /dev/null
 fi
-    
+
 pdflatex -output-directory=$BUILD_DIR $PAPER.tex > /dev/null
+
 # print important msg only
 echo "\
 log

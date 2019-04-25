@@ -1,4 +1,10 @@
-# These scripts have been run via bash on both Ubuntu 18.04 LTS and Raspbian 9.8
+# Copyright © 2019 LouisSung.
+# All rights reserved.
+
+# These scripts have been run on Ubuntu 18.04 LTS via bash
+# Require sudo privileges in order to install packages
+# Update Python version if needed, e.g., Python >=3.6
+
 echo -e "\e[1;36mSet Up Environment\e[0m"
 
 # === Parameters ===
