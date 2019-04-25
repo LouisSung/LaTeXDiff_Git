@@ -1,0 +1,6 @@
+##### forPython
+# PyCharm
+.idea/
+
+# Shoud not ignore, but to keep project clean
+Pipfile.lock
