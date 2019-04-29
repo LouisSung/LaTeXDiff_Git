@@ -1,12 +1,35 @@
-# Copyright © 2019 LouisSung.
+#!/bin/bash
+# Copyright (c) 2019 LouisSung.
 # All rights reserved.
-# Version 1.0
+# Version v1.1
 
 # These scripts have been run on Ubuntu 18.04 LTS via bash
 # Require sudo privileges in order to install packages
 # Update Python version if needed, e.g., Python >=3.6
 
-echo -e "\e[1;36mSet Up Environment\e[0m"
+# === Get options ===
+OPTIONS="\
+./$(basename "$0") [-h] [-g] [-p]:
+ \e[1m\e[3m[-h]\e[0m    Show usage
+ \e[1m\e[3m[-g]\e[0m    Set up git config only
+ \e[1m\e[3m[-p]\e[0m    Install packages only
+ \e[1m\e[3m[-g -p]\e[0m Do nothing..."
+USAGE="\
+\e[1;33mUSAGE\e[0m: \e[1mSet up required environment, i.e., \
+\e[3mgit config\e[0m\e[1m and \e[3mpackage installation\e[0m
+
+$OPTIONS"
+
+FLAG_G=true; FLAG_L=true
+
+while getopts ':hgp' option; do
+  case "$option" in
+    h) echo -e "$USAGE"; exit;;
+    g) FLAG_L=false;;
+    p) FLAG_G=false;;
+   \?) echo -e "\e[1;31mError\e[0m: Illegal option '\e[1;33m-$OPTARG\e[0m'\n$OPTIONS" >&2; exit 1;;
+  esac
+done; shift $((OPTIND-1))
 
 # === Parameters ===
 ASK='>>>'
@@ -34,6 +57,8 @@ ask(){
 }
 
 # === For Git config ===
+echo -e "\e[1;36mSet Up Environment\e[0m"
+if $FLAG_G; then
 echo "=== Git ==="
 if [ $(ask "Reset user config (name and email)? [Y/n] " "Y") = "y" ]; then
 	while true; do
@@ -71,7 +96,9 @@ if [ $(ask "Set other configs (git graph and pull --rebase)? [Y/n] " "Y") = "y" 
 	echo -e "$EXECUTE git config pull.rebase true"    # use "git pull --rebase" by default
 	git config pull.rebase true
 fi
+fi
 # === For LaTeX ===
+if $FLAG_L; then
 echo "=== LaTeX ==="
 if [ $(ask "Install TexLive-Science (SW distribution for TeX)? [Y/n] " "Y") = "y" ]; then
     echo -e "$EXECUTE sudo apt install texlive-science"
@@ -93,9 +120,6 @@ if [ $(ask "Install pip3 (The Python package installer)? [y/N] " "N") = "y" ]; t
 if [ $(ask "Install Pipenv (Virtual environment for Python)? [y/N] " "N") = "y" ]; then
     echo -e "$EXECUTE pip3 install pipenv"
     python3 -m pip install --user pipenv; fi
-# === For Pipenv init ===
-if [ $(ask "Init pipenv (For gen_diff.py)? [Y/n] " "Y") = "y" ]; then
-    echo -e "$EXECUTE pipenv install"
-    cd diff/; python3 -m pipenv install; cd ../; fi
+fi
 
 echo -e "\e[1;36mDone\e[0m"
