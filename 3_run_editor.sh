@@ -34,7 +34,7 @@ if ! $FLAG_J || $FLAG_T; then
     export BSTINPUTS=.//:
 
     # run texmaker in the background
-    texmaker &
+    texmaker &>/dev/null &
 fi
 if $FLAG_J; then
     # run jabref in the background and redirect outputs to /dev/null

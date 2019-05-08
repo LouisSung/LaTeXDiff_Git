@@ -120,6 +120,10 @@ if [ $(ask "Install pip3 (The Python package installer)? [y/N] " "N") = "y" ]; t
 if [ $(ask "Install Pipenv (Virtual environment for Python)? [y/N] " "N") = "y" ]; then
     echo -e "$EXECUTE pip3 install pipenv"
     python3 -m pip install --user pipenv; fi
+# === For Pipenv init ===
+if [ $(ask "Init pipenv (For gen_diff.py)? [Y/n] " "Y") = "y" ]; then
+    echo -e "$EXECUTE pipenv install"
+    cd diff/; python3 -m pipenv install; cd ../; fi
 fi
 
 echo -e "\e[1;36mDone\e[0m"
