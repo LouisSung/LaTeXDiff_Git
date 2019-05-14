@@ -41,9 +41,9 @@ Note that these constraints could be changed by given correspond options, i.e., 
 Due to the limitation of *latexdiff* and latex itself, some recommendations are offered:  
 1. Do not having files with *same name* in *different folders*.  
 `E.g., 'abc/file.tex' and 'xyz/file.tex' must not be in the same project`  
-2. *Comments* in latex won't be treated as *differences*, use it carefully.  
-`Both comments followed by '%' and between '\iffalse \fi' won't be processed`  
-`Refer commit '0c572b3' and file 'diff/5-Zapdos-Review_author.pdf' in this repository`  
+2. *Comments* in iffalse won't be treated as *differences*, use it carefully.  
+`Comments between '\iffalse SOMETHING_HERE \fi' won't be processed`  
+3. *Author* section won't be processed (not sure why).  
 
 ### - License
 This project is licensed under the MIT License (aka MadeInTaiwan License ฅ• ω •ฅ).  
