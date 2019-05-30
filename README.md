@@ -136,3 +136,9 @@ Both of following ways work:
 2. Click the *New BibTeX entry* icon  
 3. BibTeX > New entry  
 <img src="https://i.imgur.com/cFeBytw.png" width="400"/>  
+
+## Tutorials for LaTeX
+### Two of following tutorials are written in Chinese, which helpful for those who are new to LaTeX
+[NTHU](http://www.cs.nthu.edu.tw/~cherung/teaching/2009cs5321/link/latex.pdf): Introduce common things in LaTeX. You should at least read this  
+[NCTU](http://jupiter.math.nctu.edu.tw/~smchang/latex/latex123.pdf): Explain in very very detail... There are 150+ pages. Read it as needed  
+[Pai](https://epl.tw/latex/): Briefly mention some tips, especially for Algorithm and Pseudocode  
